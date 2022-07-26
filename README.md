@@ -7,3 +7,5 @@
 * Table
 * Bootstrap 5
 * React Icons
+
+![](https://github.com/ozcan-cetin/fire-contact-app/blob/master/fire-contact-min.gif)
