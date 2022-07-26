@@ -10,13 +10,18 @@ const ContactForm = () => {
   const [phone, setPhone] = useState("");
   const [gender, setGender] = useState("");
   const [dataList, setDataList] = useState([]);
-  const [edit, setEdit] = useState(false)
-const [tempId, setTempId] = useState("")
+  const [edit, setEdit] = useState(false);
+  const [tempId, setTempId] = useState("");
 
   //! WRITE
+  const createList = () => {
+    if (name && phone && gender) {
+      writeUserData()
+    }
+  };
   function writeUserData() {
     const listRef = ref(db, "contactList");
-    // console.log(veriRef);
+    // console.log(listRef);
     const newRef = push(listRef);
     // console.log(newRef);
     set(newRef, {
@@ -28,19 +33,19 @@ const [tempId, setTempId] = useState("")
 
   //! READ
   useEffect(() => {
-    const veriRef = ref(db, "contactList");
-    onValue(veriRef, (snapshot) => {
+    const listRef = ref(db, "contactList");
+    onValue(listRef, (snapshot) => {
       const data = snapshot.val();
       console.log(data);
-      const veriArr = [];
+      const listArr = [];
       for (let id in data) {
-        veriArr.push({
+        listArr.push({
           id,
           ...data[id],
         });
       }
-      console.log(veriArr);
-      setDataList(veriArr);
+      console.log(listArr);
+      setDataList(listArr);
     });
   }, []);
 
@@ -51,33 +56,30 @@ const [tempId, setTempId] = useState("")
 
   //! DELETE
   const deleteList = (id) => {
-    remove(ref(db, 'contactList/' + id))
-  }
+    remove(ref(db, "contactList/" + id));
+  };
 
   //! UPDATE
   const editList = (item) => {
-    setEdit(true)
-    setName(item.name)
-    setPhone(item.phone)
-    setGender(item.gender)
-    setTempId(item.id)
-  }
+    setEdit(true);
+    setName(item.name);
+    setPhone(item.phone);
+    setGender(item.gender);
+    setTempId(item.id);
+  };
 
-  const updateVeri = () => {
-    update(ref(db,'contactList/' + tempId),{
-      id:tempId,
+  const updateList = () => {
+    update(ref(db, "contactList/" + tempId), {
+      id: tempId,
       name,
       phone,
       gender,
-    })
-    setName('');
-    setPhone('');
-    setGender('');
-    setEdit(false)
-  }
-
-
-
+    });
+    setName("");
+    setPhone("");
+    setGender("");
+    setEdit(false);
+  };
 
   return (
     <div className="container d-md-flex justify-content-around mx-auto">
@@ -118,19 +120,29 @@ const [tempId, setTempId] = useState("")
               <option value="other">other</option>
             </select>
           </div>
-          <button
-            className="form-control bg-primary text-white cursor-pointer"
-            type="submit"
-            onClick={writeUserData}
-          >
-            Add
-          </button>
+          {edit ? (
+            <button
+              className="form-control bg-primary text-white cursor-pointer"
+              type="submit"
+              onClick={updateList}
+            >
+              Update
+            </button>
+          ) : (
+            <button
+              className="form-control bg-primary text-white cursor-pointer"
+              type="submit"
+              onClick={createList}
+            >
+              Add
+            </button>
+          )}
         </form>
       </div>
       {/* <Contacts dataList={dataList}/> */}
       <div className="contacts">
         <h1>Contacts</h1>
-        <table class="table container">
+        <table className="table container">
           <thead>
             <tr>
               <th scope="col">Username</th>
@@ -148,10 +160,16 @@ const [tempId, setTempId] = useState("")
                   <td>{item.phone}</td>
                   <td>{item.gender}</td>
                   <td>
-                    <FiDelete className="cursor-pointer" onClick={()=>deleteList(item.id)}/>
+                    <FiDelete
+                      className="cursor-pointer"
+                      onClick={() => deleteList(item.id)}
+                    />
                   </td>
                   <td>
-                    <AiFillEdit className="cursor-pointer" />
+                    <AiFillEdit
+                      className="cursor-pointer"
+                      onClick={() => editList(item)}
+                    />
                   </td>
                 </tr>
               );
