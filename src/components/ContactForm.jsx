@@ -1,4 +1,4 @@
-import { onValue, push, ref, remove, set } from "firebase/database";
+import { onValue, push, ref, remove, set, update } from "firebase/database";
 import React, { useEffect, useState } from "react";
 import { db } from "../Auth/firebase";
 import Contacts from "./Contacts";
@@ -10,7 +10,8 @@ const ContactForm = () => {
   const [phone, setPhone] = useState("");
   const [gender, setGender] = useState("");
   const [dataList, setDataList] = useState([]);
-
+  const [edit, setEdit] = useState(false)
+const [tempId, setTempId] = useState("")
 
   //! WRITE
   function writeUserData() {
@@ -52,6 +53,29 @@ const ContactForm = () => {
   const deleteList = (id) => {
     remove(ref(db, 'contactList/' + id))
   }
+
+  //! UPDATE
+  const editList = (item) => {
+    setEdit(true)
+    setName(item.name)
+    setPhone(item.phone)
+    setGender(item.gender)
+    setTempId(item.id)
+  }
+
+  const updateVeri = () => {
+    update(ref(db,'contactList/' + tempId),{
+      id:tempId,
+      name,
+      phone,
+      gender,
+    })
+    setName('');
+    setPhone('');
+    setGender('');
+    setEdit(false)
+  }
+
 
 
 
