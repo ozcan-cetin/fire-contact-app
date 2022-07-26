@@ -141,10 +141,10 @@ const ContactForm = () => {
       </div>
       {/* <Contacts dataList={dataList}/> */}
       <div className="contacts">
-        <h1>Contacts</h1>
-        <table className="table container">
+        <h2>Contacts</h2>
+        <table className="table container table table-info table-striped">
           <thead>
-            <tr>
+            <tr className="table-success">
               <th scope="col">Username</th>
               <th scope="col">Phone Number</th>
               <th scope="col">Gender</th>

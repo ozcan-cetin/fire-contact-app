@@ -2,6 +2,7 @@
   text-align: center;
 }
 
+
 .cursor-pointer{
   cursor: pointer;
 }
@@ -19,4 +20,12 @@ margin: auto;
 
 .form-control{
   margin-bottom: 1rem;
+ /* width: 350px; */
+}
+
+.contacts{
+  width: 50%;
+  max-width: 500px;
+  min-width: 320px;
+  margin: auto;
 }
