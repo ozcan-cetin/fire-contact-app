@@ -1,7 +1,6 @@
 import { onValue, push, ref, remove, set, update } from "firebase/database";
 import React, { useEffect, useState } from "react";
 import { db } from "../Auth/firebase";
-import Contacts from "./Contacts";
 import { FiDelete } from "react-icons/fi";
 import { AiFillEdit } from "react-icons/ai";
 
