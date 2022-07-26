@@ -1,4 +1,4 @@
-import { onValue, push, ref, set } from "firebase/database";
+import { onValue, push, ref, remove, set } from "firebase/database";
 import React, { useEffect, useState } from "react";
 import { db } from "../Auth/firebase";
 import Contacts from "./Contacts";
@@ -11,10 +11,12 @@ const ContactForm = () => {
   const [gender, setGender] = useState("");
   const [dataList, setDataList] = useState([]);
 
+
+  //! WRITE
   function writeUserData() {
-    const veriRef = ref(db, "contactList");
+    const listRef = ref(db, "contactList");
     // console.log(veriRef);
-    const newRef = push(veriRef);
+    const newRef = push(listRef);
     // console.log(newRef);
     set(newRef, {
       name: name,
@@ -23,6 +25,7 @@ const ContactForm = () => {
     });
   }
 
+  //! READ
   useEffect(() => {
     const veriRef = ref(db, "contactList");
     onValue(veriRef, (snapshot) => {
@@ -44,6 +47,13 @@ const ContactForm = () => {
   //     e.preventDefault()
   //     writeUserData()
   // }
+
+  //! DELETE
+  const deleteList = (id) => {
+    remove(ref(db, 'contactList/' + id))
+  }
+
+
 
   return (
     <div className="container d-md-flex justify-content-around mx-auto">
@@ -114,7 +124,7 @@ const ContactForm = () => {
                   <td>{item.phone}</td>
                   <td>{item.gender}</td>
                   <td>
-                    <FiDelete className="cursor-pointer" />
+                    <FiDelete className="cursor-pointer" onClick={()=>deleteList(item.id)}/>
                   </td>
                   <td>
                     <AiFillEdit className="cursor-pointer" />
